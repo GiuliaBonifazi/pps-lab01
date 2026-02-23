@@ -8,10 +8,10 @@ package example.model;
 public class SimpleBankAccount implements BankAccount {
 
     private double balance;
-    private final AccountHolder holder;
+    private final AccountHolder accountHolder;
 
-    public SimpleBankAccount(final AccountHolder holder, final double balance) {
-        this.holder = holder;
+    public SimpleBankAccount(final AccountHolder accountHolder, final double balance) {
+        this.accountHolder = accountHolder;
         this.balance = balance;
     }
 
@@ -23,14 +23,14 @@ public class SimpleBankAccount implements BankAccount {
     @Override
     public void deposit(final int userID, final double amount) {
         if (checkUser(userID)) {
-            this.balance += amount;
+            this.balance = this.balance + amount;
         }
     }
 
     @Override
     public void withdraw(final int userID, final double amount) {
         if (checkUser(userID) && isWithdrawAllowed(amount)) {
-            this.balance -= amount;
+            this.balance = this.balance - amount;
         }
     }
 
@@ -39,6 +39,6 @@ public class SimpleBankAccount implements BankAccount {
     }
 
     private boolean checkUser(final int id) {
-        return this.holder.id() == id;
+        return this.accountHolder.id() == id;
     }
 }
