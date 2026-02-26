@@ -1,9 +1,8 @@
-package tdd;
-
-import java.util.Optional;
+package tdd.lock;
 
 public class SimpleSmartDoorLock implements SmartDoorLock {
     private static final int EMPTY_PIN = -1;
+    private static final int MAX_PIN = 9999;
     private static final int MAX_ATTEMPTS = 3;
     private int pin = EMPTY_PIN;
     private int failedAttempts = 0;
@@ -12,8 +11,19 @@ public class SimpleSmartDoorLock implements SmartDoorLock {
 
     @Override
     public void setPin(int pin) {
-        if (!locked) {
+        if (!locked && pin <= MAX_PIN) {
             this.pin = pin;
+        }
+    }
+
+    private void blockDoor() {
+        blocked = true;
+    }
+
+    private void handleFailedAttempt() {
+        this.failedAttempts = this.failedAttempts + 1;
+        if (this.failedAttempts >= MAX_ATTEMPTS) {
+            blockDoor();
         }
     }
 
@@ -26,10 +36,7 @@ public class SimpleSmartDoorLock implements SmartDoorLock {
             if (this.pin == pin) {
                 this.locked = false;
             } else {
-                this.failedAttempts = this.failedAttempts + 1;
-                if (this.failedAttempts >= MAX_ATTEMPTS) {
-                    this.blocked = true;
-                }
+                handleFailedAttempt();
             }
         }
     }
@@ -64,6 +71,8 @@ public class SimpleSmartDoorLock implements SmartDoorLock {
 
     @Override
     public void reset() {
-
+        locked = false;
+        blocked = false;
+        pin = EMPTY_PIN;
     }
 }
