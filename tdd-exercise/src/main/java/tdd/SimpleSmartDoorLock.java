@@ -4,9 +4,11 @@ import java.util.Optional;
 
 public class SimpleSmartDoorLock implements SmartDoorLock {
     private static final int EMPTY_PIN = -1;
+    private static final int MAX_ATTEMPTS = 3;
     private int pin = EMPTY_PIN;
     private int failedAttempts = 0;
     private boolean locked = false;
+    private boolean blocked = false;
 
     @Override
     public void setPin(int pin) {
@@ -19,10 +21,16 @@ public class SimpleSmartDoorLock implements SmartDoorLock {
     public void unlock(int pin) {
         if (this.pin == EMPTY_PIN) {
             throw new IllegalStateException();
-        } else if (this.pin == pin) {
-            this.locked = false;
-        } else {
-            this.failedAttempts = this.failedAttempts + 1;
+        }
+        if (!blocked && locked) {
+            if (this.pin == pin) {
+                this.locked = false;
+            } else {
+                this.failedAttempts = this.failedAttempts + 1;
+                if (this.failedAttempts >= MAX_ATTEMPTS) {
+                    this.blocked = true;
+                }
+            }
         }
     }
 
@@ -41,12 +49,12 @@ public class SimpleSmartDoorLock implements SmartDoorLock {
 
     @Override
     public boolean isBlocked() {
-        return false;
+        return blocked;
     }
 
     @Override
     public int getMaxAttempts() {
-        return 0;
+        return MAX_ATTEMPTS;
     }
 
     @Override
