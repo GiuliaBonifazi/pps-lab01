@@ -17,6 +17,9 @@ public class MinMaxStackImpl implements MinMaxStack {
 
     @Override
     public int pop() {
+        if (isEmpty()) {
+            throw new IllegalStateException();
+        }
         return stack.pop();
     }
 
@@ -30,16 +33,22 @@ public class MinMaxStackImpl implements MinMaxStack {
 
     @Override
     public int getMin() {
+        if (isEmpty()) {
+            throw new IllegalStateException();
+        }
         return 0;
     }
 
     @Override
     public int getMax() {
+        if (isEmpty()) {
+            throw new IllegalStateException();
+        }
         return 0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return stack.size();
     }
 }

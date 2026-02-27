@@ -36,4 +36,26 @@ class MinMaxStackImplTest {
         int peekedValue = minMaxStack.peek();
         assertEquals(peekedValue, minMaxStack.pop());
     }
+
+    @Test
+    void testSize() {
+        minMaxStack.push(1);
+        minMaxStack.push(2);
+        assertEquals(2, minMaxStack.size());
+    }
+
+    @Test
+    void testPopOnEmptyStack() {
+        assertThrows(IllegalStateException.class, () -> minMaxStack.pop());
+    }
+
+    @Test
+    void testGetMinOnEmptyStack() {
+        assertThrows(IllegalStateException.class, () -> minMaxStack.getMin());
+    }
+
+    @Test
+    void testGetMaxOnEmptyStack() {
+        assertThrows(IllegalStateException.class, () -> minMaxStack.getMax());
+    }
 }
