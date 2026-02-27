@@ -7,7 +7,7 @@ public class MinMaxStackImpl implements MinMaxStack {
 
     @Override
     public void push(int value) {
-
+        stack.push(value);
     }
 
     @Override
@@ -17,7 +17,7 @@ public class MinMaxStackImpl implements MinMaxStack {
 
     @Override
     public int pop() {
-        return 0;
+        return stack.pop();
     }
 
     @Override
@@ -25,7 +25,7 @@ public class MinMaxStackImpl implements MinMaxStack {
         if (isEmpty()) {
             throw new IllegalStateException();
         }
-        return -1;
+        return stack.peek();
     }
 
     @Override
